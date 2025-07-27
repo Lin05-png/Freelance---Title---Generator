@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Freelance Gig Title Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      padding: 20px;
+      text-align: center;
+    }
+    .container {
+      background: #fff;
+      padding: 20px;
+      max-width: 500px;
+      margin: auto;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    input, button {
+      padding: 10px;
+      margin: 10px 0;
+      width: 100%;
+      font-size: 16px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background: #007BFF;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    .result {
+      margin-top: 20px;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>🎯 Freelance Gig Title Generator</h2>
+    <p>Enter your service (e.g., Logo Design, SEO, Video Editing)</p>
+    <input type="text" id="inputService" placeholder="Enter your service..." />
+    <button onclick="generateTitles()">Generate Titles</button>
+    <div class="result" id="output"></div>
+  </div>
+
+  <script>
+    function generateTitles() {
+      const service = document.getElementById('inputService').value;
+      const output = document.getElementById('output');
+
+      if (!service.trim()) {
+        output.innerHTML = "<p>Please enter a service.</p>";
+        return;
+      }
+
+      const ideas = [
+        `I will do high-quality ${service.toLowerCase()} for your brand`,
+        `Get premium ${service.toLowerCase()} services in 24 hrs`,
+        `I will be your professional ${service.toLowerCase()} expert`,
+        `${service} that converts — boost your sales now!`,
+        `Top-notch ${service.toLowerCase()} at affordable rates`
+      ];
+
+      output.innerHTML = "<h3>Your Titles:</h3><ul>" +
+        ideas.map(title => `<li>${title}</li>`).join('') +
+        "</ul>";
+    }
+  </script>
+</body>
+</html>
