@@ -6,69 +6,136 @@
   <title>Freelance Gig Title Generator</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: #f4f4f4;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f1f5f9;
+      margin: 0;
       padding: 20px;
-      text-align: center;
     }
+
     .container {
-      background: #fff;
-      padding: 20px;
+      background: white;
       max-width: 500px;
       margin: auto;
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+      text-align: center;
     }
+
+    h2 {
+      color: #1e40af;
+    }
+
     input, button {
-      padding: 10px;
-      margin: 10px 0;
       width: 100%;
+      padding: 12px;
+      margin: 10px 0;
       font-size: 16px;
-      border-radius: 6px;
+      border-radius: 8px;
       border: 1px solid #ccc;
     }
+
     button {
-      background: #007BFF;
+      background: #2563eb;
       color: white;
       border: none;
       cursor: pointer;
+      font-weight: bold;
     }
+
+    .suggestions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 15px;
+    }
+
+    .suggestions button {
+      width: auto;
+      background: #e0f2fe;
+      color: #0284c7;
+      border: none;
+      padding: 8px 12px;
+    }
+
     .result {
       margin-top: 20px;
       text-align: left;
+    }
+
+    .result ul {
+      list-style: disc;
+      padding-left: 20px;
+    }
+
+    #copyBtn {
+      background: #10b981;
+      margin-top: 10px;
+    }
+
+    .typing {
+      font-style: italic;
+      color: gray;
     }
   </style>
 </head>
 <body>
   <div class="container">
     <h2>🎯 Freelance Gig Title Generator</h2>
-    <p>Enter your service (e.g., Logo Design, SEO, Video Editing)</p>
+    <p>Enter your freelance service (e.g., Logo Design)</p>
+
+    <div class="suggestions">
+      <button onclick="quickFill('Logo Design')">Logo Design</button>
+      <button onclick="quickFill('SEO Optimization')">SEO</button>
+      <button onclick="quickFill('Voiceover')">Voiceover</button>
+      <button onclick="quickFill('Social Media Manager')">Social Media</button>
+    </div>
+
     <input type="text" id="inputService" placeholder="Enter your service..." />
     <button onclick="generateTitles()">Generate Titles</button>
     <div class="result" id="output"></div>
+    <button id="copyBtn" onclick="copyTitles()" style="display:none;">📋 Copy All Titles</button>
   </div>
 
   <script>
-    function generateTitles() {
-      const service = document.getElementById('inputService').value;
-      const output = document.getElementById('output');
+    function quickFill(text) {
+      document.getElementById('inputService').value = text;
+    }
 
-      if (!service.trim()) {
-        output.innerHTML = "<p>Please enter a service.</p>";
+    function generateTitles() {
+      const service = document.getElementById('inputService').value.trim();
+      const output = document.getElementById('output');
+      const copyBtn = document.getElementById('copyBtn');
+
+      if (!service) {
+        output.innerHTML = "<p>Please enter a service name.</p>";
+        copyBtn.style.display = "none";
         return;
       }
 
-      const ideas = [
-        `I will do high-quality ${service.toLowerCase()} for your brand`,
-        `Get premium ${service.toLowerCase()} services in 24 hrs`,
-        `I will be your professional ${service.toLowerCase()} expert`,
-        `${service} that converts — boost your sales now!`,
-        `Top-notch ${service.toLowerCase()} at affordable rates`
-      ];
+      output.innerHTML = "<p class='typing'>Generating titles...</p>";
+      setTimeout(() => {
+        const titles = [
+          `I will do high-quality ${service.toLowerCase()} for your brand`,
+          `Get premium ${service.toLowerCase()} services in 24 hrs`,
+          `I will be your professional ${service.toLowerCase()} expert`,
+          `${service} that converts — boost your sales now!`,
+          `Top-notch ${service.toLowerCase()} at affordable rates`
+        ];
 
-      output.innerHTML = "<h3>Your Titles:</h3><ul>" +
-        ideas.map(title => `<li>${title}</li>`).join('') +
-        "</ul>";
+        const listHtml = titles.map(t => `<li>${t}</li>`).join('');
+        output.innerHTML = `<h3>Your Titles:</h3><ul id="titleList">${listHtml}</ul>`;
+        copyBtn.style.display = "block";
+      }, 800);
+    }
+
+    function copyTitles() {
+      const items = document.querySelectorAll("#titleList li");
+      const text = Array.from(items).map(item => item.innerText).join("\n");
+      navigator.clipboard.writeText(text).then(() => {
+        alert("Titles copied to clipboard!");
+      });
     }
   </script>
 </body>
